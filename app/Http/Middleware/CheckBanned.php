@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -13,9 +14,15 @@ class CheckBanned
     {
         if (Auth::check()) {
             $ban = Auth::user()->getActiveBan();
+
             if ($ban) {
-                // Allow access only to the banned page and logout
-                if (! $request->routeIs('banned') && ! $request->routeIs('logout')) {
+                // Whitelisted: the banned splash, logout, and the appeal POST itself.
+                // Everything else is blocked so the Banned page is rendered instead.
+                if (
+                    ! $request->routeIs('banned')
+                    && ! $request->routeIs('logout')
+                    && ! $request->routeIs('appeals.store')
+                ) {
                     return Inertia::render('Banned', [
                         'ban' => [
                             'reason'     => $ban->reason,

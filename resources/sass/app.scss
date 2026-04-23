@@ -49,6 +49,8 @@ html, #app, body, #root {
   min-width: 10rem;
   width: fit-content;
   transition: all .2s ease-in-out;
+  height: fit-content;
+  margin-right: .5rem;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -108,7 +110,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .button.b-warning {
-  background-color: #cdd15f !important;
+  background-color: #EBF2B7 !important;
   color: #343434 !important;
 }
 
@@ -217,7 +219,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .alert-warning {
-  background-color: #cdd15f;
+  background-color: #EBF2B7;
   color: #373737 !important;
 }
 

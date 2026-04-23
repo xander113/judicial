@@ -1,7 +1,6 @@
-import Layout from '@/Root';
 import { Head, useForm } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
-// import Layout from '../components/Layout';
+import Layout from '@/Root';
 
 export default function Banned({ ban }) {
     const form = useForm({ message: '' });
@@ -16,10 +15,13 @@ export default function Banned({ ban }) {
             <Head title="Banned" />
 
             <div className="section s-xl sec-red" id="page-start">
-                <div className="restrained-text text-black">
+                <div
+                    className="restrained-text text-black"
+                    style={{ width: '100%', maxWidth: '32rem' }}
+                >
                     <h1>You are banned.</h1>
 
-                    <div className="alert alert-danger" style={{ marginBottom: '1rem' }}>
+                    <div className="alert alert-danger" style={{ marginBottom: '1.25rem' }}>
                         <div>
                             <strong>Reason:</strong> {ban.reason}
                             <br />
@@ -35,7 +37,7 @@ export default function Banned({ ban }) {
                         </div>
                     </div>
 
-                    {/* ── Appeal form ── */}
+                    {/* Appeal form */}
                     {!ban.has_appeal ? (
                         <div>
                             <h2>Submit an Appeal</h2>
@@ -51,7 +53,7 @@ export default function Banned({ ban }) {
                                     }
                                     placeholder="Explain your appeal..."
                                     rows={5}
-                                    style={{ width: '100%', marginBottom: '0.5rem' }}
+                                    style={{ width: '100%', boxSizing: 'border-box' }}
                                 />
                                 {form.errors.message && (
                                     <div className="alert alert-danger">

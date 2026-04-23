@@ -1,7 +1,6 @@
-import Layout from '@/Root';
 import { Head, useForm } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
-// import Layout from '../../components/Layout';
+import Layout from '@/Root';
 
 export default function AdminBlacklist({ words }) {
     const form = useForm({ word: '' });
@@ -27,17 +26,23 @@ export default function AdminBlacklist({ words }) {
                         comments, replacing matched text with asterisks.
                     </p>
 
-                    {/* ── Add word form ── */}
+                    {/* Add form */}
                     <form
                         onSubmit={submit}
-                        style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '1.5rem' }}
+                        style={{
+                            display:    'flex',
+                            gap:        '0.5rem',
+                            flexWrap:   'wrap',
+                            alignItems: 'center',
+                            marginTop:  '1rem',
+                        }}
                     >
                         <input
                             type="text"
                             placeholder="Add word..."
                             value={form.data.word}
                             onChange={(e) => form.setData('word', e.target.value)}
-                            style={{ flexGrow: 1 }}
+                            style={{ flexGrow: 1, minWidth: '10rem' }}
                         />
                         <button
                             type="submit"
@@ -48,55 +53,56 @@ export default function AdminBlacklist({ words }) {
                         </button>
                     </form>
                     {form.errors.word && (
-                        <div className="alert alert-danger">{form.errors.word}</div>
+                        <div className="alert alert-danger" style={{ marginTop: '0.5rem' }}>
+                            {form.errors.word}
+                        </div>
                     )}
 
-                    {/* ── Word list ── */}
-                    {words.length === 0 ? (
-                        <p>No words on the blacklist.</p>
-                    ) : (
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                            <thead>
-                                <tr style={{ borderBottom: '2px solid #ddd', textAlign: 'left' }}>
-                                    <th style={{ padding: '0.5rem' }}>Word</th>
-                                    <th style={{ padding: '0.5rem' }}>Added by</th>
-                                    <th style={{ padding: '0.5rem' }}>Date</th>
-                                    <th style={{ padding: '0.5rem' }}></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {words.map((w) => (
-                                    <tr
-                                        key={w.id}
-                                        style={{ borderBottom: '1px solid #eee' }}
-                                    >
-                                        <td style={{ padding: '0.5rem' }}>
-                                            <code>{w.word}</code>
-                                        </td>
-                                        <td style={{ padding: '0.5rem' }}>
-                                            {w.added_by?.name ?? '—'}
-                                        </td>
-                                        <td style={{ padding: '0.5rem' }}>
-                                            {new Date(w.created_at).toLocaleDateString()}
-                                        </td>
-                                        <td style={{ padding: '0.5rem' }}>
-                                            <button
-                                                className="button b-danger nomargin"
-                                                onClick={() =>
-                                                    router.delete(
-                                                        `/admin/blacklist/${w.id}`,
-                                                        { preserveScroll: true },
-                                                    )
-                                                }
-                                            >
-                                                Remove
-                                            </button>
-                                        </td>
+                    {/* Word list */}
+                    <div style={{ overflowX: 'auto', marginTop: '1.5rem' }}>
+                        {words.length === 0 ? (
+                            <p>No words on the blacklist.</p>
+                        ) : (
+                            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '28rem' }}>
+                                <thead>
+                                    <tr style={{ borderBottom: '2px solid #ddd', textAlign: 'left' }}>
+                                        <th style={{ padding: '0.5rem' }}>Word</th>
+                                        <th style={{ padding: '0.5rem' }}>Added by</th>
+                                        <th style={{ padding: '0.5rem' }}>Date</th>
+                                        <th style={{ padding: '0.5rem' }}></th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {words.map((w) => (
+                                        <tr key={w.id} style={{ borderBottom: '1px solid #eee' }}>
+                                            <td style={{ padding: '0.5rem' }}>
+                                                <code>{w.word}</code>
+                                            </td>
+                                            <td style={{ padding: '0.5rem' }}>
+                                                {w.added_by?.name ?? '—'}
+                                            </td>
+                                            <td style={{ padding: '0.5rem' }}>
+                                                {new Date(w.created_at).toLocaleDateString()}
+                                            </td>
+                                            <td style={{ padding: '0.5rem' }}>
+                                                <button
+                                                    className="button b-danger nomargin"
+                                                    onClick={() =>
+                                                        router.delete(
+                                                            `/admin/blacklist/${w.id}`,
+                                                            { preserveScroll: true },
+                                                        )
+                                                    }
+                                                >
+                                                    Remove
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
                 </div>
             </div>
         </Layout>

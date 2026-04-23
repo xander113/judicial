@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\BanAppeal;
@@ -7,12 +8,11 @@ use Illuminate\Http\Request;
 
 class BanAppealController extends Controller
 {
-    /**
-     * Authenticated banned user submits an appeal.
-     */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate(['message' => ['required', 'string', 'min:10', 'max:2000']]);
+        $request->validate([
+            'message' => ['required', 'string', 'min:10', 'max:2000'],
+        ]);
 
         $ban = $request->user()->getActiveBan();
 
@@ -27,9 +27,13 @@ class BanAppealController extends Controller
         BanAppeal::create([
             'ban_id'  => $ban->id,
             'user_id' => $request->user()->id,
-            'message' => $request->message,
+            'message' => $request->input('message'),
         ]);
 
-        return back()->with('success', 'Appeal submitted. An admin will review it.');
+        // Redirect to home. On any subsequent authenticated route visit,
+        // CheckBanned will re-render Banned.jsx with has_appeal = true,
+        // hiding the form and confirming the appeal is pending.
+        return redirect()->route('home')
+            ->with('success', 'Appeal submitted. An admin will review it.');
     }
 }

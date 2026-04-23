@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Models\BanAppeal;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,7 +31,16 @@ class BanAppealController extends Controller
             abort(403, 'Only admins may decide on appeals.');
         }
 
-        $request->validate(['status' => ['required', 'in:approved,denied']]);
+        // $request->validate(['status' => ['required', 'in:approved,denied']]);
+
+        $val = Validator::make($request->all(), [
+            'status' => ['required', 'in:approved,denied']
+        ]);
+
+        if ($val->fails()) {
+            // return response()->json(["message" => $validator->messages()->first()], 400);
+            abort(400, $val->messages()->first());
+        }
 
         $banAppeal->update([
             'status'              => $request->status,
