@@ -159,14 +159,14 @@ export default function HorsesIndex({ horses, topThisWeek, lowestThisWeek }) {
 
                             {topThisWeek?.length > 0 && (
                                 <div style={{ marginBottom: '2rem' }}>
-                                    <h2>🏆 Top Rated This Week</h2>
+                                    <h2>Top Rated This Week</h2>
                                     <Carousel items={topThisWeek} />
                                 </div>
                             )}
 
                             {lowestThisWeek?.length > 0 && (
                                 <div style={{ marginBottom: '2rem' }}>
-                                    <h2>📉 Lowest Rated This Week</h2>
+                                    <h2>Lowest Rated This Week</h2>
                                     <Carousel items={lowestThisWeek} />
                                 </div>
                             )}
