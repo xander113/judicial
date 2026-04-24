@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,6 +10,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             HorseSeeder::class,
+            EpisodeFiveSeeder::class,
+            HorseSerializationQueueSeeder::class, // must run last
         ]);
     }
 }

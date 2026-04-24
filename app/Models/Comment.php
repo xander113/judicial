@@ -16,43 +16,37 @@ class Comment extends Model
         'user_id',
         'body',
         'parent_id',
+        'is_sticky',
         'deleted_by_user_id',
     ];
 
-    // -------------------------------------------------------------------------
-    // Relationships
-    // -------------------------------------------------------------------------
+    protected $casts = [
+        'is_sticky' => 'boolean',
+    ];
 
-    public function horse(): BelongsTo
-    {
-        return $this->belongsTo(Horse::class);
-    }
+    // ── Relationships ─────────────────────────────────────────────────────────
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+    public function horse(): BelongsTo     { return $this->belongsTo(Horse::class); }
+    public function user(): BelongsTo      { return $this->belongsTo(User::class); }
+    public function deletedBy(): BelongsTo { return $this->belongsTo(User::class, 'deleted_by_user_id'); }
 
-    public function deletedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'deleted_by_user_id');
-    }
-
-    /**
-     * The comment this is a reply to.
-     * Only one level of nesting is supported (replies cannot have replies).
-     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Comment::class, 'parent_id');
     }
 
-    /**
-     * Direct replies to this comment.
-     * SoftDeletes global scope automatically excludes deleted replies.
-     */
     public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'parent_id')->latest();
+    }
+
+    public function votes(): HasMany
+    {
+        return $this->hasMany(CommentVote::class);
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
     }
 }
